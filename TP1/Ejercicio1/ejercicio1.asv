@@ -1,8 +1,0 @@
-imagesPath = "./Imagenes";
-%%
-% --------------------------
-% Red para imagenes de 60x45
-% --------------------------
-paloma = imread(imagesPath + "")
-
-%%
