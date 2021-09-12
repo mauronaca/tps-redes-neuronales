@@ -1,61 +1,69 @@
-clc;
+clc; close all;
 imagesPath = "./Imagenes";
-
 %%
 % --------------------------
-% Red para imagenes de 60x45
+% Red para set de iamgenes de 60x45
 % --------------------------
+
 paloma = imread('./Imagenes/paloma.bmp');
 quijote = imread('./Imagenes/quijote.bmp');
 torero = imread('./Imagenes/torero.bmp');
 
-N = 2700;
-Np =  3;
+set1(:,:,1) = paloma;
+set1(:,:,2) = quijote;
+set1(:,:,3) = torero;  
 
-% Matriz de patrones
-P(:, 1) = reshape(paloma, [], 1);
-P(:, 2) = reshape(quijote, [], 1);
-P(:, 3) = reshape(torero, [], 1);
-%arrayfun(@(x) 1 - 2 * x, P); % Los ceros van a +1 y los unos a -1
-P = ones(N, Np) - 2 .* P;
-W = P*P' - Np * eye(N);
+[P, W, N, Np] = entrenarRed(set1);
 
-% Ejecucion:
-
-% Compruebo si la red devuelve el mismo patron:
-for i=1:Np
-    h = sign(W*P(:, i));
+% Compruebo si la red devuelve el mismo patron cuando le in:
+for i = 1:Np
+    h = ejecutarRed(W, P(:,i));
     figure()
-    imshow( (ones(45, 60) - reshape(P(:,i), [45,60])) ./2 );
-    error = sum(h - P(:,i))/N;
+    imshow( (ones(45, 60) - reshape(h, [45,60])) ./2 );
+    %error = sum(h - P(:,i))/N;
 end
-%%
+
 
 %%
 % --------------------------
-% Red para imagenes de 50x50
+% Red para set de imagenes de 50x50
 % --------------------------
-perro = imread('./Imagenes/panda.bmp');
-panda = imread('./Imagenes/perro.bmp');
+
+panda = imread('./Imagenes/panda.bmp');
+perro = imread('./Imagenes/perro.bmp');
 v = imread('./Imagenes/v.bmp');
 
-N = 2500;
-Np =  3;
+set2(:,:,1) = panda;
+set2(:,:,2) = perro;
+set2(:,:,3) = v;  
 
-% Matriz de patrones
-P(:, 1) = reshape(perro, [], 1);
-P(:, 2) = reshape(panda, [], 1);
-P(:, 3) = reshape(v, [], 1);
-P = ones(N, Np) - 2 .* P;
-W = P*P' - Np * eye(N);
+[P, W, N, Np] = entrenarRed(set2);
 
-% Ejecucion:
-
-% Compruebo si la red devuelve el mismo patron:
-for i=1:Np
-    h = sign(W*P(:, i));
+% Compruebo si la red devuelve el mismo patron cuando le in:
+for i = 1:Np
+    h = ejecutarRed(W, P(:,i));
     figure()
-    imshow( (ones(50, 50) - reshape(P(:,i), [50,50])) ./2 );
-    error = sum(h - P(:,i))/N;
+    imshow( (ones(50, 50) - reshape(h, [50,50])) ./2 );
+    %error = sum(h - P(:,i))/N;
 end
+
 %%
+
+function [P, W, N, Np] = entrenarRed(set)
+    dimension = size(set);
+    N = dimension(1) * dimension(2);
+    Np = dimension(3);
+    P = zeros(N, Np);
+    
+    for i = 1:Np
+        P(:,i) = reshape(set(:,:,i), [], 1);
+    end
+    
+    P = ones(N, Np) - 2 .* P; % Transformo los 0 en +1 y los 1 en -1
+    W = P*P' - Np * eye(N);
+end
+
+function h = ejecutarRed(W, entrada)
+    h = sign(W * entrada);
+end
+
