@@ -12,22 +12,44 @@ rng(0);
 % A cada imagen le agrego pixeles negros con probabilidad de 0.2
 palomaRuido = insertarRuido(paloma);
 pandaRuido = insertarRuido(panda);
+quijoteRuido = insertarRuido(quijote);
+toreroRuido = insertarRuido(torero);
+perroRuido = insertarRuido(perro);
+vRuido = insertarRuido(v);
+
 figure()
 imshow(palomaRuido);
-imwrite(palomaRuido, './Imagenes/palomaRuido1.bmp');
+imwrite(palomaRuido, './Imagenes/Ruido/palomaRuido1.bmp');
 figure()
 imshow(pandaRuido);
-imwrite(pandaRuido, './Imagenes/pandaRuido1.bmp');
+imwrite(pandaRuido, './Imagenes/Ruido/pandaRuido1.bmp');
+imshow(quijoteRuido);
+imwrite(quijoteRuido, './Imagenes/Ruido/quijoteRuido1.bmp');
+imshow(toreroRuido);
+imwrite(toreroRuido, './Imagenes/Ruido/toreroRuido1.bmp');
+imshow(perroRuido);
+imwrite(perroRuido, './Imagenes/Ruido/perroRuido1.bmp');
+imshow(vRuido);
+imwrite(vRuido, './Imagenes/Ruido/vRuido1.bmp');
+
 
 %% Tapar mitad de una imagen:
 quijoteRuido = llenarMitad(quijote);
 figure()
 imshow(quijoteRuido);
-imwrite(quijoteRuido, './Imagenes/quijoteRuido.bmp');
+imwrite(quijoteRuido, './Imagenes/Ruido/quijoteRuido.bmp');
 perroRuido = llenarMitad(perro);
 figure()
 imshow(perroRuido);
-imwrite(perroRuido, './Imagenes/perroRuido');
+imwrite(perroRuido, './Imagenes/Ruido/perroRuido.bmp');
+vRuido = llenarMitad(v);
+figure()
+imshow(vRuido);
+imwrite(vRuido, './Imagenes/Ruido/vRuido.bmp');
+
+%% Genero imagen negra
+negro = zeros(45, 60);
+imwrite(negro, './Imagenes/Ruido/negro.bmp');
 
 %%
 pxRuido = ones(10000, 1);
@@ -70,4 +92,3 @@ function imgSalida = llenarMitad(imgEntrada)
         end
     end
 end
-

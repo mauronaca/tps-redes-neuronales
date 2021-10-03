@@ -47,18 +47,19 @@ for i = 1:6
 end
 
 % Con la mitad de la imagen del quijote y su otra mitad negro.
-quijoteRuido = imread('./Imagenes/Ruido/quijoteRuido.bmp');
+quijoteRuido = imread('./Imagenes/quijoteRuido.bmp');
 P_quijoteRuido = pixel2Estado(quijoteRuido);
 h = ejecutarAsync(W, P_quijoteRuido);
-pathName = 'Resultados/Ejercicio1/set45x60MitadNegro.bmp';
-imwrite(imfuse(quijoteRuido, reconstruirImg(h, 45, 60), 'montage'), pathName)
+figure()
+imshow(reconstruirImg(h, 45, 60)); title('Salida con la mitad de la imagen de entrada llena de negro');
 
 % Imagen negra:
-negro = imread('./Imagenes/Ruido/negro.bmp');
+negro = imread('./Imagenes/negro.bmp');
 P_negro = pixel2Estado(double(negro));
 h = ejecutarAsync(W, P_negro);
-pathName = 'Resultados/Ejercicio1/set45x60negro.bmp';
-imwrite(imfuse(negro, reconstruirImg(h, 45, 60), 'montage'), pathName)
+figure()
+pathName = 'Re'
+imshow(reconstruirImg(h, 45, 60)); title('Salida con imagen de entrada negra'); % Se obtiene un estado espurio.
 
 %% Red para imagenes de 50x50
 % --------------------------
@@ -88,7 +89,7 @@ for i = 1:Np
 end
 
 % Con la mitad de la imagen del perro y su otra mitad negro.
-perroRuido = imread('./Imagenes/Ruido/perroRuido.bmp');
+perroRuido = imread('./Imagenes/perroRuido.bmp');
 P_perroRuido = pixel2Estado(perroRuido);
 P_mixto = sign( 3*(-P(:, 1) + P(:, 2) + P(:, 3)) + 1);
 h = ejecutarAsync(W, P_perroRuido);
@@ -100,7 +101,7 @@ imwrite(imfuse(imfuse(perroRuido, reconstruirImg(P_mixto , 50, 50), 'montage'), 
 disp("Error entre salida y un patron mixto: " + mean(h-P_mixto));
 
 % Pruebo con el v.bmp
-vRuido = imread('./Imagenes/Ruido/vRuido.bmp');
+vRuido = imread('./Imagenes/vRuido.bmp');
 P_vRuido = pixel2Estado(vRuido);
 h = ejecutarAsync(W, P_vRuido);
 pathName = strcat('Resultados/Ejercicio1/set50x50mitadNegro', num2str(1), '.bmp');

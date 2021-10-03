@@ -8,8 +8,8 @@ function h = ejecutarAsync(W, entrada)
     for i = 1:N
         % Sumatoria:
         for j = 1:N
-            h(i) = h(i) + W(i,j) * sign(h(j));
+            h(i) = h(i) + W(i,j) * signo(h(j));
         end
-        h(i) = sign(h(i));
+        h(i) = signo(h(i));
     end
 end
