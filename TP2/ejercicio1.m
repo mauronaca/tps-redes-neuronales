@@ -65,7 +65,7 @@ display("Iteraciones: " + cantIter);
 display(w);
 display("y: " + y); display("yd: " + yd);
 
-figure()
+graficoAnd = figure();
 plot(x1, x2, 'linewidth', 3, 'color', 'red')
 %fplot(@(t) -w0/w2 - t*w1/w2);
 hold on;
@@ -76,6 +76,9 @@ gridxy(0,0, 'Linestyle',':');
 gridxy(1,1, 'Linestyle',':'); 
 gridxy(-1,-1,'Linestyle',':');
 title("Perceptron Simple AND 2 entradas");
+set(gca,'fontsize', 14);
+set(graficoAnd,'PaperSize',[20 10]); %set the paper size to what you want  
+print(graficoAnd,'Resultados/Ejercicio1/and2entradas','-dpdf') % then print it
 
 %% Saco un promedio de iteraciones en funcion de la const de Aprendizaje
 for a = 1 % Para ocultar el codigo
@@ -88,7 +91,7 @@ for a = 1 % Para ocultar el codigo
         "Inicializacion de w con 0s",...
         "Inicializacion de w con 1s"];
 
-    figure()
+    grafico2 = figure();
     for init = 1:cantInit
 
         iteraciones = zeros(size(constantes));
@@ -138,6 +141,10 @@ for a = 1 % Para ocultar el codigo
     end
     xlabel("Constante de aprendizaje"); ylabel("Cantidad de pasos");
     legend(legendTipoDeInit);
+    set(gca,'fontsize', 12);
+    set(grafico2,'PaperSize',[20 10]); %set the paper size to what you want  
+    print(grafico2,'Resultados/Ejercicio1/constAprVSiters','-dpdf') % then print it
+
     %scatter(constantes, iteraciones, 100, 'filled', 'black')
 end
 
@@ -201,7 +208,7 @@ n = 3; % Cantidad de entradas
 p = 4; % Canntidad de patrones
 
 
-% Patrones. tamaño (4, 2) 4 patrones, 3 entradas
+% Patrones. tamaño (4, 3) 4 patrones, 3 entradas
 xp = [1, -1, -1; 1, -1, 1; 1, 1, -1; 1, 1, 1]; % Entrada 0 es 1
 %xp = transpose(xp);
 % Salida deseada (clasificacion 1 o -1)
@@ -247,7 +254,7 @@ display("Iteraciones: " + cantIter);
 display(w);
 display("y: " + y); display("yd: " + yd);
 
-figure()
+graficoOr = figure();
 plot(x1, x2, 'linewidth', 3, 'color', 'red')
 %fplot(@(t) -w0/w2 - t*w1/w2);
 hold on;
@@ -258,7 +265,9 @@ gridxy(0,0, 'Linestyle',':');
 gridxy(1,1, 'Linestyle',':'); 
 gridxy(-1,-1,'Linestyle',':');
 title("Perceptron Simple OR 2 entradas");
-
+set(gca,'fontsize', 14);
+set(graficoOr,'PaperSize',[20 10]); %set the paper size to what you want  
+print(graficoOr,'Resultados/Ejercicio1/or2entradas','-dpdf') % then print it
 %% Perceptron simple para funcion OR de 4 entradas 
 % Todas las salidas son -1 excepto para 1, 1, 1, 1
 
