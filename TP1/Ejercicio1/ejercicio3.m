@@ -38,7 +38,7 @@ for porcentaje = conexionesEliminadas
     idx = idx + 1;
 end
 
-figure()
+h=figure()
 errorbar(conexionesEliminadas, errores, varianza, 'color', 'red', 'linewidth', 2);
 title("Proba. de error en función del porcentaje de conexiones eliminidas para "+ N +" neuronas y "+ p +" patrones");
 legend("Error para " + p + " patrones");
@@ -48,6 +48,8 @@ xtickformat('percentage');
 ylabel('Probabilidad de error');
 set(gca,'fontsize', 14);
 saveas(gcf, 'Resultados/Ejercicio3/erroresPercent.png');
+set(h,'PaperSize',[20 10]); %set the paper size to what you want  
+print(h,'Resultados/Ejercicio3/grafico1','-dpdf') % then print it
 
 
 %% Graficar la capacidad de la red en funcion del porcentaje de neuronas eliminadas:
@@ -102,12 +104,14 @@ for porcentaje = conexionesEliminadas
     idx = idx + 1;
 end
 
-figure()
+h2=figure()
 errorbar(conexionesEliminadas, capacidades, varianza, 'linewidth', 2, 'color', 'red');
 title("Capacidad en función del porcentaje de conexiones eliminidas para "+N);
 grid('on');
 xlabel('Porcentaje de conexiones entre neuronas eliminadas');
 xtickformat('percentage');
 ylabel('Capacidad [p_{max} / N]');
-set(gca,'fontsize', 14);
+set(gca,'fontsize', 10);
 saveas(gcf, 'Resultados/Ejercicio3/capacidadPercent.png');
+set(h2,'PaperSize',[20 10]); %set the paper size to what you want  
+print(h2,'Resultados/Ejercicio3/grafico2','-dpdf') % then print it

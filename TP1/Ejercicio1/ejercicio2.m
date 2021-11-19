@@ -43,7 +43,7 @@ for i = 1:5
     disp("Capacidad total con P_error " + p_error + " = " + capacidadMedia(i) + " con varianza " + capacidadVar(i));
     
 end
-figure()
+h = figure()
 errorbar(listaErrores, capacidadMedia, capacidadVar, 'linewidth', 2, 'color', 'red');
 title("Capacidades en función de la probabilidad de error para "+N+" neuronas");
 legend('Capacidad');
@@ -52,6 +52,9 @@ xlabel('Probabilidad de error admitida');
 ylabel('Capacidad [p_{max} / N]');
 set(gca,'fontsize', 14);
 saveas(gcf, 'Resultados/Ejercicio2/capacidad.png');
+set(h,'PaperSize',[20 10]); %set the paper size to what you want  
+print(h,'Resultados/Ejercicio2/grafico1','-dpdf') % then print it
+
 %hist(P, [-1,1])
 
 %% Con distintas correlaciones
@@ -67,7 +70,7 @@ N = 100;
 cant_pasos = 50;
 img_idx = 1;
 cantIteraciones = 200;
-for probaError = 0.001
+for probaError = listaErrores
     
     capacidad = zeros(1, cantIteraciones);
     capacidades = zeros(1, cant_pasos);
@@ -103,7 +106,7 @@ for probaError = 0.001
         varianza(idx) = sqrt(var(capacidad));
         idx = idx + 1;
     end
-    figure()
+    h = figure()
     errorbar(correlaciones, capacidades, varianza , 'linewidth', 2, 'color', 'red');
     title("Capacidades en función de la correlación para "+N+" neuronas y proba. de error admitida "+probaError);
     legend('Capacidad');
@@ -111,7 +114,10 @@ for probaError = 0.001
     xlabel('Correlación entre los patrones enseñados');
     ylabel('Capacidad [p_{max} / N]');
     set(gca,'fontsize', 14);
-    saveas(gcf, "Resultados/Ejercicio2/" + "capacidadCorr" + img_idx + ".png");
+    pathName = strcat('Resultados/Ejercicio2/capacidad', num2str(img_idx));
+    %saveas(gcf, 'Resultados/Ejercicio2/capacidad.png');
+    set(h,'PaperSize',[20 10]); %set the paper size to what you want  
+    print(h,pathName,'-dpdf') % then print it
     img_idx = img_idx + 1;
 end
 

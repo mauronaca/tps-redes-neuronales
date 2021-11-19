@@ -48,8 +48,13 @@ imshow(vRuido);
 imwrite(vRuido, './Imagenes/Ruido/vRuido.bmp');
 
 %% Genero imagen negra
-negro = zeros(45, 60);
+negro = double(zeros(45, 60));
 imwrite(negro, './Imagenes/Ruido/negro.bmp');
+
+%% Imagen super ruidosa
+% (cambiar proba. de insertar un pixel)
+pandaSuperRuido = insertarRuido(panda);
+imwrite(pandaSuperRuido, './Imagenes/Ruido/pandaSuperRuido.bmp');
 
 %%
 pxRuido = ones(10000, 1);

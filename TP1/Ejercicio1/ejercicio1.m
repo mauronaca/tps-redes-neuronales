@@ -29,21 +29,26 @@ end
 % Ahora pruebo con ruido (pixeles negros
 % insertados al azar): 
 for i = 1:6
+    % Deberia haber separado cada set en carpetas
+    % distintas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if strcmp(imgsRuido(i).name,'perroRuido1.bmp')
         continue
     elseif strcmp(imgsRuido(i).name,'pandaRuido1.bmp')
         continue
     elseif strcmp(imgsRuido(i).name,'vRuido1.bmp')
         continue;
+    elseif strcmp(imgsRuido(i).name,'perroRuido.bmp')
+        continue;
     end
+    display(strcat('Imagenes/Ruido/',imgsRuido(i).name))
     currentImage = imread(strcat('Imagenes/Ruido/',imgsRuido(i).name));
-    P = pixel2Estado(currentImage);
+    P = pixel2Estado(double(currentImage));
     hAsync = ejecutarAsync(W, P);
     hSync = ejecutarRedSync(W, P);
     pathName = strcat('Resultados/Ejercicio1/set45x60ruido', num2str(i), '.bmp');
     imwrite(imfuse(currentImage, reconstruirImg(hSync, 45, 60), 'montage'), pathName);
     err = mean(hAsync-P);
-    disp("Error para la paloma con ruido: " + err);
+    disp("Error con ruido: " + err);
 end
 
 % Con la mitad de la imagen del quijote y su otra mitad negro.
@@ -52,6 +57,8 @@ P_quijoteRuido = pixel2Estado(quijoteRuido);
 h = ejecutarAsync(W, P_quijoteRuido);
 pathName = 'Resultados/Ejercicio1/set45x60MitadNegro.bmp';
 imwrite(imfuse(quijoteRuido, reconstruirImg(h, 45, 60), 'montage'), pathName)
+err = mean(h-pixel2Estado(quijote));
+disp("Error con Quijote tapado: " + err);
 
 % Imagen negra:
 negro = imread('./Imagenes/Ruido/negro.bmp');
@@ -97,7 +104,7 @@ imwrite(imfuse(imfuse(perroRuido, reconstruirImg(P_mixto , 50, 50), 'montage'), 
 % En este caso hay un estado espurio entre el perro, v y el panda! A prueba
 % y error si hago imshow(perro+v-panda) encuentro que es el mismo patron.
 % Lo verifico, el estado espurio deberia ser Pmix = -P1 + P2 + P3
-disp("Error entre salida y un patron mixto: " + mean(h-P_mixto));
+disp("Error para el perro tapado y salida (mixto): " + mean(h-pixel2Estado(perro)));
 
 % Pruebo con el v.bmp
 vRuido = imread('./Imagenes/Ruido/vRuido.bmp');
@@ -105,27 +112,37 @@ P_vRuido = pixel2Estado(vRuido);
 h = ejecutarAsync(W, P_vRuido);
 pathName = strcat('Resultados/Ejercicio1/set50x50mitadNegro', num2str(1), '.bmp');
 imwrite(imfuse(vRuido, reconstruirImg(h , 50, 50), 'montage'), pathName);
+disp("Error para el v tapado y salida: " + mean(h-pixel2Estado(v)));
 
 % Ahora la entrada es la imagen con pixeles negros insertados:
-for i = 1:6
+for i = 1:10
     if strcmp(imgsRuido(i).name,'quijoteRuido1.bmp')
         continue;
     elseif strcmp(imgsRuido(i).name,'palomaRuido1.bmp')
         continue;
+    elseif strcmp(imgsRuido(i).name,'quijoteRuido.bmp')
+        continue;
     elseif strcmp(imgsRuido(i).name,'toreroRuido1.bmp')
+        continue;
+    elseif strcmp(imgsRuido(i).name,'negro.bmp')
         continue;
     end
     display(imgsRuido(i).name)
     currentImage = imread(strcat('Imagenes/Ruido/',imgsRuido(i).name));
-    P = pixel2Estado(currentImage);
+    P = pixel2Estado(double(currentImage));
     hAsync = ejecutarAsync(W, P);
     hSync = ejecutarRedSync(W, P);
     pathName = strcat('Resultados/Ejercicio1/set50x50ruido', num2str(i), '.bmp');
     imwrite(imfuse(currentImage, reconstruirImg(hSync, 50, 50), 'montage'), pathName);
     err = mean(hAsync-P);
-    disp("Error para la paloma con ruido: " + err);
+    disp("Error con ruido: " + err);
 end
 
+% otro estado espurio con el panda
+pandaSuperRuido = imread('./Imagenes/Ruido/pandaSuperRuido.bmp');
+pathName = strcat('Resultados/Ejercicio1/set50x50pandaSuperRuido', num2str(i), '.bmp');
+h = ejecutarAsync(W, pixel2Estado(pandaSuperRuido));
+imwrite(imfuse(pandaSuperRuido, reconstruirImg(h , 50, 50), 'montage'), pathName);
 
 %% Red para las 6 imagenes
 
@@ -162,7 +179,7 @@ end
 % Pruebo con imagenes con ruido
 for i = 1:Np
     currentImage = imresize(imread(strcat('Imagenes/Ruido/',imgsRuido(i).name)), nuevaMedida);
-    P = pixel2Estado(currentImage);
+    P = pixel2Estado(double(currentImage));
     hAsync = ejecutarAsync(W, P);
     hSync = ejecutarRedSync(W, P);
     pathName = strcat('Resultados/Ejercicio1/set60x60ruido', num2str(i), '.bmp');
