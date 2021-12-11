@@ -31,7 +31,7 @@ w = zeros(n, 1);
 error = 1;
 y = zeros(p, 1);
 cantIter = 0;
-constAprendizaje = 0.99;
+constAprendizaje = 0.9;
 
 while (error > 0)
     
@@ -78,7 +78,7 @@ gridxy(-1,-1,'Linestyle',':');
 title("Perceptron Simple AND 2 entradas");
 set(gca,'fontsize', 14);
 set(graficoAnd,'PaperSize',[20 10]); %set the paper size to what you want  
-print(graficoAnd,'Resultados/Ejercicio1/and2entradas','-dpdf') % then print it
+%print(graficoAnd,'Resultados/Ejercicio1/and2entradas','-dpdf') % then print it
 
 %% Saco un promedio de iteraciones en funcion de la const de Aprendizaje
 for a = 1 % Para ocultar el codigo
@@ -143,7 +143,7 @@ for a = 1 % Para ocultar el codigo
     legend(legendTipoDeInit);
     set(gca,'fontsize', 12);
     set(grafico2,'PaperSize',[20 10]); %set the paper size to what you want  
-    print(grafico2,'Resultados/Ejercicio1/constAprVSiters','-dpdf') % then print it
+    %print(grafico2,'Resultados/Ejercicio1/constAprVSiters','-dpdf') % then print it
 
     %scatter(constantes, iteraciones, 100, 'filled', 'black')
 end
@@ -220,7 +220,7 @@ w = zeros(n, 1);
 error = 1;
 y = zeros(p, 1);
 cantIter = 0;
-constAprendizaje = 0.99;
+constAprendizaje = 0.9;
 
 while (error > 0)
     
@@ -267,7 +267,7 @@ gridxy(-1,-1,'Linestyle',':');
 title("Perceptron Simple OR 2 entradas");
 set(gca,'fontsize', 14);
 set(graficoOr,'PaperSize',[20 10]); %set the paper size to what you want  
-print(graficoOr,'Resultados/Ejercicio1/or2entradas','-dpdf') % then print it
+%print(graficoOr,'Resultados/Ejercicio1/or2entradas','-dpdf') % then print it
 %% Perceptron simple para funcion OR de 4 entradas 
 % Todas las salidas son -1 excepto para 1, 1, 1, 1
 

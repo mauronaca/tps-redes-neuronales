@@ -130,7 +130,7 @@ else
         set(gca,'fontsize', 14);
         ylabel('Error'); xlabel('Iteración')
         set(plot_xor2,'PaperSize',[20 10]); %set the paper size to what you want  
-        print(plot_xor2,'Resultados/Ejercicio3/xor2','-dpdf') % then print it
+        %print(plot_xor2,'Resultados/Ejercicio3/xor2','-dpdf') % then print it
     end
 end
 
@@ -181,7 +181,7 @@ ylabel('Error');
 set(gca,'fontsize', 12);
 grid('on');
 set(plot_variar_pesos, 'PaperSize',[20 10]); %set the paper size to what you want  
-print(plot_variar_pesos,'Resultados/Ejercicio3/puntoC','-dpdf') % then print it
+%print(plot_variar_pesos,'Resultados/Ejercicio3/puntoC','-dpdf') % then print it
 
 plot_variar_pesos_patron = figure();
 colors = ["red" "magenta" "blue" "black"];
@@ -197,7 +197,7 @@ ylabel('Error');
 set(gca,'fontsize', 12);
 grid('on');
 set(plot_variar_pesos_patron, 'PaperSize',[20 10]); %set the paper size to what you want  
-print(plot_variar_pesos_patron,'Resultados/Ejercicio3/puntoD','-dpdf') % then print it
+%print(plot_variar_pesos_patron,'Resultados/Ejercicio3/puntoD','-dpdf') % then print it
 
 pause;
 %% Red multicapa que aprende la funcion XOR de 4 entradas
