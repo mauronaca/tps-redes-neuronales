@@ -177,23 +177,6 @@ ylabel('\color{blue}\xi(2) \color{red}w(2)', 'interpreter', 'tex');
 set(plot_pesos,'PaperSize', [20 10]); %set the paper size to what you want  
 print(plot_pesos,'Resultados/Ejercicio1/pesos','-dpdf') % then print it
 
-%plot_neuronas = figure();
-%vecindad_mu = reshape(vecindad(patron_pa_graficar, :), n_x, n_y);
-%imagesc(vecindad_mu);
-%title("Función de vecindad para el patrón " + mu , "interpreter", "tex");
-%hold on;
-%for i = 1:(n_x)
-%        plot([1, n_x], [i, i] , 'linewidth', 1, 'color', 'black' )   
-%        plot([i, i], [1, n_y] , 'linewidth', 1, 'color', 'black' )   
-%end
-%[X, Y] = meshgrid(1:n_x, 1:n_y);
-%scatter(X(:), Y(:), 100 , 'black', 'fill');
-
-%set(gca,'fontsize', 12);
-%set(plot_neuronas,'PaperSize', [20 10]); %set the paper size to what you want  
-%print(plot_neuronas,'Resultados/Ejercicio1/neuronas','-dpdf') % then print it
-
-
 
 
 %% Red Kohnonen de 2 entradas, distribución dentro de un rectangulo
@@ -366,4 +349,23 @@ ylabel('\color{blue}\xi(2) \color{red}w(2)', 'interpreter', 'tex');
 set(plot_pesos_rect,'PaperSize', [20 10]); %set the paper size to what you want  
 print(plot_pesos_rect, 'Resultados/Ejercicio1/pesos_rect','-dpdf') % then print it
 
+
+%%
+
+
+plot_neuronas = figure();
+
+
+hold on;
+
+for i = 1:(n_x)
+        plot([1, n_x], [i, i] , 'linewidth', 1, 'color', 'black' )   
+        plot([i, i], [1, n_y] , 'linewidth', 1, 'color', 'black' )   
+end
+[X, Y] = meshgrid(1:n_x, 1:n_y);
+scatter(X(:), Y(:), 100 , 'black', 'fill');
+
+set(gca,'fontsize', 12);
+set(plot_neuronas,'PaperSize', [20 10]); %set the paper size to what you want  
+print(plot_neuronas,'Resultados/Ejercicio1/neuronas','-dpdf') % then print it
 

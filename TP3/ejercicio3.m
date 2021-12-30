@@ -21,7 +21,7 @@ for mu = 1:p
 end
 radio = max(norms);
 
-n_x = 14; n_y = 14; % largo del eje x e y del espacio de coordenadas de neuronas.
+n_x = 23; n_y = 23; % largo del eje x e y del espacio de coordenadas de neuronas.
 n = n_x ^ dim_espacio_neuronas; % #neuronas
 
 eta = 0.1; 
@@ -42,9 +42,9 @@ for i = 1:n_x
     end
 end
 
-%% 
+%% Entrenamiento de la red 
 
-% Entrenamiento de la red
+% Entrenamiento de la red tarda como 2 horas! :O
 
 
 neurona_ganadora = zeros(p, 2); % coordenadas de la neurona ganadora
@@ -80,9 +80,9 @@ while(iter <= iteraciones)
         for i=1:n_x
             for j=1:n_y
                 vecindad(mu, idx_neu) = func_vecindad([i, j], neurona_ganadora(mu, :), sigma); 
-                w{i,j} = w{i,j} + eta * vecindad(mu, idx_neu) * (x - w{i,j});
+                w{i,j} = w{i,j} + eta * vecindad(mu, idx_neu) * (x' - w{i,j});
                 idx_neu = idx_neu + 1;
-            end
+            end     
         end
 
 
@@ -99,22 +99,59 @@ end
 
 %% Armado de la función U
 
+w = struct2cell(load("w1.mat")); w= w{1}; % pesos de dimension 100!!!
+w_mat = zeros(n_x, n_y); % matriz auxiliar que mapea las coordenadas con la matriz w de cell arrays.
 
+for i = 1:n_x
+ % workaround: en la linea de actualizacion de los pesos estaba haciendo (x
+% - w{i,j}) y como x es un vector columna y w un vector fila, esa resta
+% termina dando una matriz donde en cada columna esta el resultado replicado. El fix sería hacer (x'-w{i,j}), pero para los w
+% que me guarde me quedo con los vector columna.
 
-%%
-plot_neuronas = figure();
-vecindad_mu = reshape(vecindad(2, :), n_x, n_y);
-imagesc(vecindad_mu);
-title("Función de vecindad para el patrón " + mu , "interpreter", "tex");
-hold on;
-for i = 1:(n_x)
-        plot([1, n_x], [i, i] , 'linewidth', 1, 'color', 'black' )   
-        plot([i, i], [1, n_y] , 'linewidth', 1, 'color', 'black' )   
+    for j = 1:n_y
+        w{i,j} = w{i,j}(:,1);
+    end
 end
-[X, Y] = meshgrid(1:n_x, 1:n_y);
-scatter(X(:), Y(:), 100 , 'black', 'fill');
+s = size(w);
+B = zeros(s);
+nn = numel(w);
+matriz_vecinos = cell(s);
 
+for ii = 1:nn
+  B(ii) = 1;
+  matriz_vecinos{ii} = w(bwdist(B,'ch') == 1);
+  B(ii) = 0;
+end
+
+% Construyo la funcion U:
+U = zeros(n_x, n_y); % matriz de la función U
+
+for i = 1:n_x
+    for j = 1:n_y
+        
+        % para la neurona [i,j]
+        
+        suma = 0; % inicializo la suma en 0 para luego guardarla en la matriz U.
+        
+        % recorro todos los vecinos, calculo la norma, y lo sumo en $suma.
+        for vecinos = matriz_vecinos{i,j}
+            for vecino_idx = 1:size(vecinos, 1)
+                suma = suma + norm(w{i, j} - cell2mat(vecinos(vecino_idx)));
+            end
+        end
+        
+        U(i, j) = suma;
+    end
+end
+
+
+% Grafico la matriz U
+
+plot_clusters = figure();
+pcolor(U);
+colorbar;
 set(gca,'fontsize', 12);
-set(plot_neuronas,'PaperSize', [20 10]); %set the paper size to what you want  
-print(plot_neuronas,'Resultados/Ejercicio1/neuronas','-dpdf') % then print it
+set(plot_clusters,'PaperSize', [20 10]); 
+print(plot_clusters,'Resultados/Ejercicio3/clusters_1','-dpdf') 
+
 
