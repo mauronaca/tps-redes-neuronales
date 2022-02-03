@@ -19,10 +19,12 @@ Otros datasets: https://cvpr.kmu.ac.kr/
 Para crear los labels: https://cvat.org 
 
 Contiene imagenes para validacion y entrenamiento de 259 x 194 pixeles. La estructura es la siguiente.
+´´
 /fire-dataset/validation/images
 /fire-dataset/validation/annotations
 /fire-dataset/train/images
 /fire-dataset/train/annotations
+´´
 
 Hay 502 imágenes en total divididas en 412 para training y 90 para validation, esto representa un 82% y 18% respectivamente. 
 
