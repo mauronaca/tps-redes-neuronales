@@ -1,7 +1,8 @@
-# tps-redes-neuronales
-Trabajos Prácticos y Ejercicios de Redes Neuronales
 
-Introducción
+
+---
+
+# Introducción
 
 Las tecnologías actuales de detección de incendios tales como detectores de humo o sensores de calor no suelen ser precisas para espacios grandes o edificaciones complejas. Recientemente se avanzó en nuevas tecnologías más precisas y sensibles en cuanto a la detección basadas en imágenes. 
 
@@ -9,8 +10,9 @@ El proceso de detección basado en imágenes cuenta con 3 pasos importantes, que
 
 Las CNNs cuentan con una capa llamada convolutional layers. Estas capas son las más importantes, son filtros que realizan una transformación a la imagen generando un mapa de features. A los filtros utilizados se los llama kernel, de modo que las capas convolucionales son una serie de distintos kernels con el fin de encontrar un mapa de características de la imagen de entrada. 
 
+---
 
-Dataset
+# Dataset
 
 El dataset utilizado proviene del siguiente repositorio: https://github.com/OlafenwaMoses/FireNET
 Link para descargar el dataset: https://drive.google.com/file/d/1dXDxqPJUMEaPeSwb5wl7kO1vpgQRllxW/view?usp=sharing
@@ -19,19 +21,19 @@ Otros datasets: https://cvpr.kmu.ac.kr/
 Para crear los labels: https://cvat.org 
 
 Contiene imagenes para validacion y entrenamiento de 259 x 194 pixeles. La estructura es la siguiente.
-´´
+``
 /fire-dataset/validation/images
 /fire-dataset/validation/annotations
 /fire-dataset/train/images
 /fire-dataset/train/annotations
-´´
+``
 
 Hay 502 imágenes en total divididas en 412 para training y 90 para validation, esto representa un 82% y 18% respectivamente. 
 
 En annotations se encuentran los archivos .xml asociados a cada imagen y en ellos se detalla la metadata del bounding box. Esto es muy importante ya que YOLO predice el bb y la probabilidad de la clase. En este caso hay una  sola clase que es fire pero puede existir una que sea smoke.
 
 Un ejemplo de un .xml es el siguiente:
-
+```xml
 <annotation>
 	<folder>images</folder>
 	<filename>img (103).jpg</filename>
@@ -58,21 +60,22 @@ Un ejemplo de un .xml es el siguiente:
 		</bndbox>
 	</object>
 </annotation>
+```
 
 En él se especifica por un lado el tamaño de la imagen y en otra etiqueta el bounding box, en donde min y max corresponden a las coordenadas de la esquina inferior derecha y superior izquierda del bb.
 
 El formato que YOLO interpreta es de la siguiente manera:
 
-<object-class> <x_center> <y_center> <width> <height>
+``<object-class> <x_center> <y_center> <width> <height>``
 
-<object-class>: Nombre de la clase
-<x_center> <y_center>: Posición del centro del bounding box normalizado al alto y ancho de la imagen
-<width> <height>: Alto y ancho del bounding box normalizado.
+`<object-class>` : Nombre de la clase
+`<x_center> <y_center>` : Posición del centro del bounding box normalizado al alto y ancho de la imagen
+`<width> <height>` : Alto y ancho del bounding box normalizado.
 
-Se usa el siguiente script para pasar del formato .xml al formato .tx ejecutando pytho xml2yolo.py dentro de la carpeta /fire-dataset/train||validation/annotation:
+Se usa el siguiente script para pasar del formato .xml al formato .tx ejecutando pytho xml2yolo.py dentro de la carpeta `/fire-dataset/train||validation/annotation` :
 
 
-
+```python
 # -*- coding: utf-8 -*-
 
 from xml.dom import minidom
@@ -143,14 +146,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+```
 
+---
 
-
-
-
-
-
-Entrenamiento de YOLOv4 utilizando la infraestructura de Darknet:
+# Entrenamiento de YOLOv4 utilizando la infraestructura de Darknet:
 
 Links varios:
 
@@ -166,6 +166,7 @@ https://github.com/AlexeyAB/darknet (v. no original que contiene la v.4 de yolo)
 https://www.sciencedirect.com/science/article/pii/S2214157X2030085X (muchos datasets de ejemplo)
 
 La arquitectura de la red tiene la siguiente forma:
+```bash
 yolo-net/
 ├─ darknet/
 │  ├─ darknet
@@ -182,8 +183,9 @@ yolo-net/
 ├─ obj.data
 ├─ obj.name
 ├─ yolov4-tiny.cfg
-
+```
 Dentro del dataset, en images/ se encuentran las imágenes correspondientes de entrenamiento o validación e incluye las anotaciones en un .txt en el formato de YOLO.
+```bash
 ├─ fire-dataset/
 │  ├─ test/
 │  │  ├─ images/
@@ -193,28 +195,30 @@ Dentro del dataset, en images/ se encuentran las imágenes correspondientes de e
 |  |  |  ├─ ..
 |  |  |  ├─ ..
 │  │  ├─ test.txt
-
+```
 
 
 Dentro del directorio darknet/ se encuentra el código fuente para implementar la red YOLO, un archivo Makefile que permite compilar el código, y entre otros archivos más existe el ejecutable que se llama darknet, por el cual se puede entrenar la red y testear con imágenes de entrada entre otras funciones. Además dentro de este directorio se almacenan los resultados obtenidos al ejecutar la red, como por ejemplo los pesos finales y un gráfico que muestra la pérdida en función de la cantidad de iteraciones.
 
+---
 
-Preparación del Dataset
+# Preparación del Dataset
 
 Al comienzo el dataset solo contiene las imágenes de training, testeo y validación y sus correspondientes anotaciones. Antes de poder comenzar con el entrenamiento se deben crear ciertos archivos que disponen de la información para que YOLO pueda saber donde se ubican las imágenes y sus correspondientes labels, así como también configurar los distintos parámetros de la red.
 
-Agregar más imágenes de fuego en indoor y crear sus labels a partir de la red entrenada con el dataset original.
-Agregar imágenes que luzcan similares a un fuego pero que no lo sean (sin label)
-Agregar una clase de smoke e imágenes. 
+- [ ]  Agregar más imágenes de fuego en indoor y crear sus labels a partir de la red entrenada con el dataset original.
+- [ ]  Agregar imágenes que luzcan similares a un fuego pero que no lo sean (sin label)
+- [ ]  Agregar una clase de smoke e imágenes. 
 
-YOLO necesita imágenes que no pertenezcan a la clase que se quiere predecir?
+### YOLO necesita imágenes que no pertenezcan a la clase que se quiere predecir?
 
 Short answer: No https://stackoverflow.com/questions/55202727/yolo-object-detection-include-images-that-do-not-contain-classes-to-be-predicte
 
 Sin embargo es útil tener preparado un set de imágenes que puedan hacer confundir a la red que contiene un fuego dentro como por ejemplo una foto con el sol brillando, y dejarlo dentro del directorio /fire-dataset/train/images pero sin ningún label, de modo que al momento del entrenamiento la red sepa que esa imagen no contiene la clase de fuego. 
 
+---
 
-Notebooks
+# Notebooks
 
 Para extraer los frames de videos: https://colab.research.google.com/drive/1Ja0RjGG_cEtuiGfwJ1cqTZ46HrsA1n8H#scrollTo=xnmVtYdYV4B9
 
